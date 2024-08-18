@@ -1,9 +1,10 @@
+import { Map } from "@/components/Map/Map";
 
 export default function Home() {
   return (
     <main >
       <div>
-        TESTE
+        <Map/>
       </div>
     </main>
   );
