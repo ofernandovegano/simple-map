@@ -4,7 +4,8 @@ import { useRouter } from "next/navigation";
 import { SearchBox } from "@mapbox/search-js-react";
 
 import * as S from "./styled";
-import { SearchBoxRetrieveResponse } from "@/utils/types/types";
+import { SearchBoxRetrieveResponse } from "@/shared/types/types";
+import { getCountry } from "./use-cases/getCountry";
 
 type SearchProps = {
   onSelect: (latitude: number, lonjitude: number) => void;
@@ -24,18 +25,20 @@ const Search: React.FC<SearchProps> = ({ onSelect, nameParam }) => {
     router.push(`/?lat=${latitude}&long=${longitude}&name=${searchString}`);
   };
 
-  const handleSelect = (event: SearchBoxRetrieveResponse) => {
+  const handleSelect = async (event: SearchBoxRetrieveResponse) => {
     const selectedResult = event.features[0];
     const coordinates = selectedResult.geometry.coordinates;
     const lonjitude = coordinates[0];
     const latitude = coordinates[1];
     const propertiesAddress = selectedResult.properties;
+    const countryCode = propertiesAddress?.context.country.country_code
     handleSearch(
       `${propertiesAddress?.name} - ${propertiesAddress?.address}, ${propertiesAddress?.place_formatted}`,
       latitude,
       lonjitude
     );
     onSelect(latitude, lonjitude);
+    const country = await getCountry(countryCode)
   };
   return (
     <S.SearchWrapper>

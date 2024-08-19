@@ -6,16 +6,16 @@ import ReactMapGL from "react-map-gl";
 import Search from "../SearchBox/SearchBox";
 import MarkerPin from "../MarkerPin/MarkerPin";
 
-import { SelectedLocation } from "@/utils/types/types";
 import { useSearchParams } from "next/navigation";
 
 import * as S from "./styled";
+import { SelectedLocation } from "@/shared/types/types";
 
-type MapProps = {
+type MapboxProps = {
   mapStyle?: string;
 };
 
-const Map: React.FC<MapProps> = ({
+const Mapbox: React.FC<MapboxProps> = ({
   mapStyle = "mapbox://styles/mapbox/streets-v11",
 }) => {
   const searchParams = useSearchParams();
@@ -55,7 +55,7 @@ const Map: React.FC<MapProps> = ({
   };
 
   return (
-    <S.MapWrapper>
+    <S.MapboxWrapper>
       <ReactMapGL
         {...viewState}
         mapStyle={mapStyle}
@@ -65,8 +65,8 @@ const Map: React.FC<MapProps> = ({
         <MarkerPin pinLocation={pinLocation} message={popUpMessage} />
         <Search onSelect={handleSelectLocation} nameParam={nameParam} />
       </ReactMapGL>
-    </S.MapWrapper>
+    </S.MapboxWrapper>
   );
 };
 
-export default Map;
+export default Mapbox;
