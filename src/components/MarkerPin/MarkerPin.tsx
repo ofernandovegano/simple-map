@@ -1,54 +1,53 @@
 "use client";
-import * as S from "./styled";
-import React, { useState } from "react";
-import { ViewState, Popup, Marker } from "react-map-gl";
+import React from "react";
 import "mapbox-gl/dist/mapbox-gl.css";
+import { Popup, Marker } from "react-map-gl";
+
+import { SelectedLocation } from "@/utils/types/types";
+
 import { MapPin } from "lucide-react";
+import * as S from "./styled";
 
 type MarkerPinProps = {
-  initialViewState: ViewState;
+  pinLocation: SelectedLocation | null;
   message: string;
+  onClickMap: () => void;
 };
 
-type selectedLocation = {
-  latitude: number;
-  longitude: number;
-};
-
-const MarkerPin: React.FC<MarkerPinProps> = ({ initialViewState, message }) => {
-  const [selectedLocation, setSelectedLocation] =
-    useState<selectedLocation | null>({
-      latitude: initialViewState.latitude,
-      longitude: initialViewState.longitude,
-    });
-
+const MarkerPin: React.FC<MarkerPinProps> = ({
+  pinLocation,
+  onClickMap,
+  message,
+}) => {
   const handleClosePopUp = () => {
-    setSelectedLocation(null);
+    onClickMap();
   };
 
   return (
     <>
-      <Marker
-        latitude={initialViewState.latitude}
-        longitude={initialViewState.longitude}
-      >
-        <S.IconWrapper>
-          <MapPin />
-        </S.IconWrapper>
-      </Marker>
+      {pinLocation && (
+        <>
+          <Marker
+            latitude={pinLocation.latitude}
+            longitude={pinLocation.longitude}
+          >
+            <S.IconWrapper>
+              <MapPin />
+            </S.IconWrapper>
+          </Marker>
 
-      {selectedLocation && (
-        <Popup
-          latitude={selectedLocation.latitude}
-          longitude={selectedLocation.longitude}
-          closeButton={false}
-          closeOnClick={true}
-          onClose={handleClosePopUp}
-          anchor="top"
-          offset={[0, 15] as [number, number]}
-        >
-          <div>{message}</div>
-        </Popup>
+          <Popup
+            latitude={pinLocation.latitude}
+            longitude={pinLocation.longitude}
+            closeButton={false}
+            closeOnClick={true}
+            onClose={handleClosePopUp}
+            anchor="top"
+            offset={[0, 15] as [number, number]}
+          >
+            <div>{message}</div>
+          </Popup>
+        </>
       )}
     </>
   );
