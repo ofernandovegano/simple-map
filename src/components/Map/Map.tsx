@@ -7,6 +7,7 @@ import Search from "../SearchBox/SearchBox";
 import MarkerPin from "../MarkerPin/MarkerPin";
 
 import { SelectedLocation } from "@/utils/types/types";
+import { useSearchParams } from "next/navigation";
 
 import * as S from "./styled";
 
@@ -17,6 +18,10 @@ type MapProps = {
 const Map: React.FC<MapProps> = ({
   mapStyle = "mapbox://styles/mapbox/streets-v11",
 }) => {
+  const searchParams = useSearchParams();
+  const latParam = searchParams.get("lat");
+  const longParam = searchParams.get("long");
+  const nameParam = searchParams.get("name");
   const initialViewDefault = {
     latitude: 52.5001218829824,
     longitude: 13.420673166765605,
@@ -25,6 +30,12 @@ const Map: React.FC<MapProps> = ({
     pitch: 0,
     padding: { top: 0, bottom: 0, left: 0, right: 0 },
   };
+
+  if (latParam !== null && longParam !== null) {
+    initialViewDefault.latitude = Number(latParam);
+    initialViewDefault.longitude = Number(longParam);
+  }
+
   const [viewState, setViewState] = useState(initialViewDefault);
   const [popUpMessage, setPopUpMessage] = useState(`RepRisk Berlin is here!`);
   const [pinLocation, setPinLocation] = useState<SelectedLocation | null>({
@@ -51,12 +62,8 @@ const Map: React.FC<MapProps> = ({
         mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
         onMove={(evt) => setViewState(evt.viewState)}
       >
-        <MarkerPin
-          pinLocation={pinLocation}
-          onClickMap={() => setPinLocation(null)}
-          message={popUpMessage}
-        />
-        <Search onSelect={handleSelectLocation} />
+        <MarkerPin pinLocation={pinLocation} message={popUpMessage} />
+        <Search onSelect={handleSelectLocation} nameParam={nameParam} />
       </ReactMapGL>
     </S.MapWrapper>
   );

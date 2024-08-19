@@ -11,17 +11,12 @@ import * as S from "./styled";
 type MarkerPinProps = {
   pinLocation: SelectedLocation | null;
   message: string;
-  onClickMap: () => void;
 };
 
 const MarkerPin: React.FC<MarkerPinProps> = ({
   pinLocation,
-  onClickMap,
   message,
 }) => {
-  const handleClosePopUp = () => {
-    onClickMap();
-  };
 
   return (
     <>
@@ -30,6 +25,7 @@ const MarkerPin: React.FC<MarkerPinProps> = ({
           <Marker
             latitude={pinLocation.latitude}
             longitude={pinLocation.longitude}
+
           >
             <S.IconWrapper>
               <MapPin />
@@ -41,7 +37,6 @@ const MarkerPin: React.FC<MarkerPinProps> = ({
             longitude={pinLocation.longitude}
             closeButton={false}
             closeOnClick={true}
-            onClose={handleClosePopUp}
             anchor="top"
             offset={[0, 15] as [number, number]}
           >
