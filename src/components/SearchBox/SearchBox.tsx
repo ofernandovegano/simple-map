@@ -1,20 +1,27 @@
 "use client";
 import React, { useState } from "react";
-
+import { useRouter } from "next/navigation";
 import { SearchBox } from "@mapbox/search-js-react";
 
 import * as S from "./styled";
 import { SearchBoxRetrieveResponse } from "@/utils/types/types";
 
-type SearchBoxProps = {
+type SearchProps = {
   onSelect: (latitude: number, lonjitude: number) => void;
+  nameParam: string | null;
 };
 
-const Search: React.FC<SearchBoxProps> = ({ onSelect }) => {
-  const [inputValue, setInputValue] = useState("");
+const Search: React.FC<SearchProps> = ({ onSelect, nameParam }) => {
+  const [inputValue, setInputValue] = useState(nameParam || "");
+  const router = useRouter();
 
-  const handleSearch = (searchString: string) => {
+  const handleSearch = (
+    searchString: string,
+    latitude: number,
+    longitude: number
+  ) => {
     setInputValue(searchString);
+    router.push(`/?lat=${latitude}&long=${longitude}&name=${searchString}`);
   };
 
   const handleSelect = (event: SearchBoxRetrieveResponse) => {
@@ -24,7 +31,9 @@ const Search: React.FC<SearchBoxProps> = ({ onSelect }) => {
     const latitude = coordinates[1];
     const propertiesAddress = selectedResult.properties;
     handleSearch(
-      `${propertiesAddress?.name} - ${propertiesAddress?.address}, ${propertiesAddress?.place_formatted}`
+      `${propertiesAddress?.name} - ${propertiesAddress?.address}, ${propertiesAddress?.place_formatted}`,
+      latitude,
+      lonjitude
     );
     onSelect(latitude, lonjitude);
   };
