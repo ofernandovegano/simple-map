@@ -1,8 +1,7 @@
-import Map from "@/components/Map/Map";
+import Map from "@/modules/map/ui/map-page";
 import Head from "next/head";
 
 export default function Home() {
-
   return (
     <div>
       <Head>
@@ -15,8 +14,7 @@ export default function Home() {
       </Head>
 
       <main>
-        <Map
-        />
+        <Map />
       </main>
     </div>
   );

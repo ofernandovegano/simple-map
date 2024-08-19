@@ -3,10 +3,10 @@ import React from "react";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { Popup, Marker } from "react-map-gl";
 
-import { SelectedLocation } from "@/utils/types/types";
 
 import { MapPin } from "lucide-react";
 import * as S from "./styled";
+import { SelectedLocation } from "@/shared/types/types";
 
 type MarkerPinProps = {
   pinLocation: SelectedLocation | null;
