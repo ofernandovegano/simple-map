@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@mapbox/search-js-react": "^1.0.0-beta.22",
     "lucide-react": "^0.428.0",
     "mapbox-gl": "^3.6.0",
     "next": "14.2.5",
