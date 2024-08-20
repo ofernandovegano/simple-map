@@ -2,12 +2,18 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { SearchBox } from "@mapbox/search-js-react";
+import dynamic from "next/dynamic";
 
 import * as S from "./styled";
 import { SearchBoxRetrieveResponse } from "@/shared/types/types";
 import { getCountry } from "./use-cases/getCountry";
 import { Country } from "./data-access/types/getCountry";
+import { SearchBoxProps } from "@mapbox/search-js-react/dist/components/SearchBox";
+
+const SearchBox = dynamic(() =>
+  import("@mapbox/search-js-react").then((mod) => mod.SearchBox as unknown as React.ComponentType<SearchBoxProps>),
+  { ssr: false }
+);
 
 type SearchProps = {
   onSelect: (latitude: number, lonjitude: number) => void;
