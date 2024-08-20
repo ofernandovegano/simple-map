@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import "mapbox-gl/dist/mapbox-gl.css";
 import ReactMapGL from "react-map-gl";
 
-import Search from "../SearchBox/SearchBox";
+import Search from "../Search/Search";
 import MarkerPin from "../MarkerPin/MarkerPin";
 
 import { useSearchParams } from "next/navigation";
@@ -30,14 +30,14 @@ const Mapbox: React.FC<MapboxProps> = ({
     pitch: 0,
     padding: { top: 0, bottom: 0, left: 0, right: 0 },
   };
-
-  if (latParam !== null && longParam !== null) {
+  const hasLatAndLongParams = latParam !== null && longParam !== null
+  if (hasLatAndLongParams) {
     initialViewDefault.latitude = Number(latParam);
     initialViewDefault.longitude = Number(longParam);
   }
 
   const [viewState, setViewState] = useState(initialViewDefault);
-  const [popUpMessage, setPopUpMessage] = useState(`RepRisk Berlin is here!`);
+  const [popUpMessage, setPopUpMessage] = useState(hasLatAndLongParams ? "It is here!": `RepRisk Berlin is here!`);
   const [pinLocation, setPinLocation] = useState<SelectedLocation | null>({
     latitude: initialViewDefault.latitude,
     longitude: initialViewDefault.longitude,
