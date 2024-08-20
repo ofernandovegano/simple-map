@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { SearchBox } from "@mapbox/search-js-react";
+import { toast } from 'sonner'
 
 import * as S from "./styled";
 import { SearchBoxRetrieveResponse } from "@/shared/types/types";
@@ -48,7 +49,13 @@ const Search: React.FC<SearchProps> = ({ onSelect, nameParam }) => {
     handleSearch(searchString, latitude, lonjitude);
     onSelect(latitude, lonjitude);
     const country = await getCountry(countryCode);
-    if (country) setCountryDetails(country);
+
+    if (country) {
+      setCountryDetails(country)
+      toast.success('Country found!')
+    } else {
+      toast.error('Country not found!')
+    }
   };
   return (
     <S.SearchWrapper>
