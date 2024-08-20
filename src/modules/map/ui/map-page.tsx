@@ -1,10 +1,13 @@
-"use server";
+"use client";
 
+import { Suspense } from "react";
 import Mapbox from "../components/Mapbox/Mapbox";
 
-const MapPage: React.FC = ({}) => {
+const MapPage: React.FC = () => {
   return (
-    <Mapbox />
+    <Suspense fallback={<div>Loading map...</div>}>
+      <Mapbox />
+    </Suspense>
   );
 };
 
