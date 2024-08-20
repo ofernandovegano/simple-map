@@ -1,8 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import { SearchBox } from "@mapbox/search-js-react";
-import { toast } from 'sonner'
 
 import * as S from "./styled";
 import { SearchBoxRetrieveResponse } from "@/shared/types/types";
@@ -51,12 +51,13 @@ const Search: React.FC<SearchProps> = ({ onSelect, nameParam }) => {
     const country = await getCountry(countryCode);
 
     if (country) {
-      setCountryDetails(country)
-      toast.success('Country found!')
+      setCountryDetails(country);
+      toast.success("Country found!");
     } else {
-      toast.error('Country not found!')
+      toast.error("Country not found!");
     }
   };
+
   return (
     <S.SearchWrapper>
       <SearchBox
